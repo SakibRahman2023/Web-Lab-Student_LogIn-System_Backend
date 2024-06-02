@@ -10,6 +10,10 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+app.use(cors({
+    origin: 'http://localhost:5173'
+}));
+
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ruhnsqc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -43,6 +47,15 @@ async function run() {
             const result = await ResultCollection.find().toArray();
             res.send(result);
         })
+
+        app.post('/StudentResult', async (req, res) => {
+            const AddResults = req.body;
+            console.log(AddResults);
+            const result = await ResultCollection.insertOne(AddResults);
+            res.send(result);
+
+        })
+
 
 
 
